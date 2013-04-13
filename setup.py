@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='django-stdfields',
-    version='1.0.2',
+    version='1.0.3',
     author=u'Kevin Wetzels',
     author_email=u'kevin@roam.be',
     url='https://bitbucket.org/roam/django-stdfields',
