@@ -5,6 +5,7 @@ fields.EnumIntegerField and fields.EnumCharField.
 """
 from django.test import TestCase
 from django.forms import ValidationError, ModelForm
+from django.forms.widgets import TextInput
 from django.db import models
 
 from stdfields.models import Enumeration, Enum, EnumValue
@@ -107,9 +108,12 @@ class MinutesFormFieldTest(TestCase):
 
 class MinutesWidgetTest(TestCase):
 
+    def get_widget_template(self):
+        return TextInput().render("hi", "%s")
+
     def test_minutes_widget(self):
         w = MinutesWidget()
-        tpl = '<input type="text" name="hi" value="%s" />'
+        tpl = self.get_widget_template()
         self.assertEqual(w.render('hi', '121'), tpl % '2:01')
         self.assertEqual(w.render('hi', '2:1'), tpl % '2:1')
         self.assertEqual(w.render('hi', 60), tpl % '1:00')
@@ -227,7 +231,7 @@ class EnumCharModel(models.Model):
 
 
 class EnumCharFieldTest(TestCase):
-    
+
     def __init__(self, *args, **kwargs):
         super(EnumCharFieldTest, self).__init__(*args, **kwargs)
         self.enum_cls = ExampleCharEnum
@@ -244,6 +248,7 @@ class EnumCharFieldTest(TestCase):
         f = EnumCharField(enum=enum)
         expected = [('', '---------')] + enum.all()
         self.assertEqual(expected, f.formfield().choices)
+        self.assertEqual(self.max_length, f.max_length)
 
     def test_display(self):
         enum = self.enum_cls

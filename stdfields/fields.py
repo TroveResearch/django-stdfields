@@ -57,10 +57,13 @@ class EnumCharField(models.CharField):
     description = "An enumeration of character values"
 
     def __init__(self, *args, **kwargs):
-        if 'enum' in kwargs:
-            self.enum = kwargs.pop('enum')
-            choices = self.enum.all()
+        enum = kwargs.pop('enum', None)
+        if enum:
+            self.enum = enum
+            choices = enum.all()
             kwargs['choices'] = choices
+            if not 'max_length' in kwargs:
+                kwargs['max_length'] = enum.max_length()
         else:
             choices = kwargs.get('choices', [])
         super(EnumCharField, self).__init__(*args, **kwargs)
