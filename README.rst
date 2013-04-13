@@ -2,6 +2,11 @@
 django-stdfields
 ================
 
+
+.. image:: https://secure.travis-ci.org/superduper/django-stdfields.png
+   :target: http://travis-ci.org/superduper/django-stdfields
+
+
 Fields I wish were standard in Django. At the moment this is limited to the
 ``MinutesField``, ``EnumIntegerField`` and ``EnumCharField``.
 
